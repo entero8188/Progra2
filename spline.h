@@ -14,21 +14,42 @@ class spline{
     public:
         spline(){};
 
+/*
+va a ser un pequeño resumen de como funciona esta clase.
+Los splains al final los usamos cuando tenemos una serie de puntos, estos puntos los podemos obtener de la medición en algún experimento, 
+puede que la separación entre cada medición sea grande y para eso esta la interpolación que es como decir, "ya, este punte es el que debería venir 
+entremedio de estos dos puntos que medí". Un metodo de interpolación y el q importa para la prueba son los splain
 
 
 
+
+
+
+
+
+*/
+    
+
+    //constructor genérico//
         spline(string name_archivo, int n_columna=1){
+            //el name_archivo es el archivo.dat donde estan los puntos que medimos experimentalmente y a los cuales queremos realizarles una interpolación
             this->name_archivo=name_archivo;
-
+            
+            /*La función lector(definida como la penultima) se encarga de pasar el archivo.dat con los datos a un vector en c++ para que el programa pueda usar los datos en si.
+            la  funcion pasa todo el .dat, ya sean numeros, espacios, tabulaciones y cambios de linea a un único VECTOR de largo arbitrario, osea, escribe todo lo del .dat en una sola linea, la otra funcion se encarga de dejarlo bonito*/
             vector<string> lineas=lector(name_archivo);
+            
+            /*
+            La función separador toma el super vector que crea la función lector y va armando los numeros que estaban anotados en el .dat, en la implementación del separador voy a explicar mejor como funciona
+            lo importante a cachar es que, la columna 0 del .dat es el tiempo(variable independiente) del experimento del que tomamos los datos y n_columna es la medición que tomamos para un tiempo dado*/
             vector<vector<string> >datos_string=separador(lineas);
 
             vector<double> t;
             vector<double> x;
 
             for(int i=0; i<datos_string.size();i++){
-                t.push_back(stod(datos_string[i][0]));
-                x.push_back(stod(datos_string[i][n_columna]));
+                t.push_back(stod(datos_string[i][0]));//aca le digo a c++ que tome la primera columna como si fuera el tiempo
+                x.push_back(stod(datos_string[i][n_columna]));//aca le digo q la n_columna son los datos que quiero interpolar
 
             }
 
@@ -56,10 +77,12 @@ class spline{
 
 
 
-        vector<vector<double> > constantes(vector<double> t, vector<double> x ,int n){
+        vector<vector<double> > constantes(vector<double> t/*el vector t son los intervalos de tiempo que tomamos*/,
+                                           vector<double> x/*x son las mediciones que tomamos*/ ,
+                                           int n){
             vector<double> a(n+1);
             for(int i=0; i<=n;i++){
-                a[i]=x[i];
+                a[i]=x[i];//defino los y_i que salen en  el pdf interpolacion.pdf diapo 16
             }
 
             vector<double> b(n,0.);
@@ -70,11 +93,13 @@ class spline{
             vector<double> h(n);
 
             for(int i=0;i<=n-1; i++){
-                h[i]=t[i+1]-t[i];
+                h[i]=t[i+1]-t[i];//definimos los intervalos de tiempo en los que realizamos mediciones
             }
             
-            vector<double> r(n);
+            vector<double> r(n);//aca definimos la mitad del r que aparece en el pdf
 
+            
+            //sinceramente no se como funciona esta parte pq usa una forma del algoritmo q sale en wikipedia y el profe no explico, pero es analogo a lo del pdf
             for(int i=1; i<=n-1; i++ ){
                 r[i]=3.*(a[i+1]-a[i])/(h[i])-3.*(a[i]-a[i-1])/(h[i-1]);
 
@@ -107,6 +132,11 @@ class spline{
                 d[i]=(c[i+1]-c[i])/(3.*h[i]);
             }
             vector<vector<double> > constantes;
+            /*las constantes a,b,c y d son los coeficientes que acompañan a cada termino de x, recordemos que 
+            los splains son funciones cúbicas, asi q las constantes son las del polinomio
+            ax³+bx²+cx+d
+            y el i-esimo valor a,b,c y d son las constantes del polinomio S(x) de grado 3 que pasa por el i-esimo valor 
+            de la interpolacion osea x_i*/
             constantes.push_back(a);
             constantes.push_back(b);
             constantes.push_back(c);
@@ -126,7 +156,7 @@ class spline{
 
             int n=t.size()-1;
 
-            vector<vector<double>> constant=constantes(t,x,n);
+            vector<vector<double>> constant=constantes(t,x,n);//creamos el vector con las constantes para cada x del splain
             vector<double> d= constant[3];
             vector<double> c= constant[2];
             vector<double> b= constant[1];
