@@ -118,7 +118,7 @@ class lagrange{
                 for(int j=0; j<puntos_interpolacion;j++){
 
 
-                    polinomio=calcular(t_j,t,x,1);
+                    polinomio=calcular(t_j,t,x);
 
                     interpolacion.push_back(vector<double>{t_j,polinomio-1});
                     t_j=t_j+(t[i+1]-t[i])/puntos_interpolacion;
