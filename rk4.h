@@ -106,7 +106,7 @@ class RK4{
       
       //calculo posicion_k4 y k4
       for(int i = 0; i < n_var; i++){
-	posicion_k4[i+1] = posiciones[i]+k3[i]*dt/2;
+	posicion_k4[i+1] = posiciones[i]+k3[i]*dt;
       }
       k4 = derivadas(posiciones_k4);
 
