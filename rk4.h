@@ -116,7 +116,7 @@ class RK4{
 	+ k1[1]*dt/2., z + k1[2]*dt/2.);
 	k3 = derivadas(t+dt/2., x + k2[0]*dt/2., y 
 	+ k2[1]*dt/2., z + k2[2]*dt/2.);
-	k4 = derivadas(t+dt/2, x + k3[0]*dt, y 
+	k4 = derivadas(t+dt, x + k3[0]*dt, y 
 	+ k3[1]*dt, z + k3[2]*dt);
 	(notese que habría que definir de forma distinta la función
 	derivadas a como se hizo en la parte sin comentar)*/
