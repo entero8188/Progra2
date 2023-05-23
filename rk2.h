@@ -84,14 +84,14 @@ class RK2{
       for(int i = 0; i < n_var; i++){
 	posicion_k1[i+1] = posiciones[i];
       }
-      k1 = derivadas(posiciones_k1);
+      k1 = derivadas(posicion_k1);
       
       //calculo posicion_k2 y k2
       //siguiendo los pasos del metodo runge-kutta
       for(int i = 0; i < n_var; i++){
 	posicion_k2[i+1] = posiciones[i]+k1[i]*dt;
       }
-      k2 = derivadas(posiciones_k2);
+      k2 = derivadas(posicion_k2);
 
       /*lo anterior es analogo (para el caso n_var=3) a lo siguiente:
 	k1 = derivadas(t, x, y, z);
@@ -106,7 +106,7 @@ class RK2{
 	posiciones[i] = posiciones[i] + 1./2.*
 	  (k1[i]+k2[i])*dt;
       }
-      t = dt;
+      t = t+dt;
     }
     rk2.close();
   }
