@@ -89,26 +89,26 @@ class RK4{
       for(int i = 0; i < n_var; i++){
 	posicion_k1[i+1] = posiciones[i];
       }
-      k1 = derivadas(posiciones_k1);
+      k1 = derivadas(posicion_k1);
 
       //sigo calculando los valores que van evaluados en k2, k3 y k4
       //siguiendo los pasos del metodo runge-kutta-4
       for(int i = 0; i < n_var; i++){
 	posicion_k2[i+1] = posiciones[i]+k1[i]*dt/2;
       }
-      k2 = derivadas(posiciones_k2);
+      k2 = derivadas(posicion_k2);
 
       //calculo posicion_k3 y k3
       for(int i = 0; i < n_var; i++){
 	posicion_k3[i+1] = posiciones[i]+k2[i]*dt/2;
       }
-      k3 = derivadas(posiciones_k3);
+      k3 = derivadas(posicion_k3);
       
       //calculo posicion_k4 y k4
       for(int i = 0; i < n_var; i++){
 	posicion_k4[i+1] = posiciones[i]+k3[i]*dt;
       }
-      k4 = derivadas(posiciones_k4);
+      k4 = derivadas(posicion_k4);
 
       /*lo anterior es analogo (para el caso n_var=3) a lo siguiente:
 	k1 = derivadas(t, x, y, z);
@@ -127,7 +127,7 @@ class RK4{
 	posiciones[i] = posiciones[i] + 1./6.*
 	  (k1[i]+2*k2[i]+2*k3[i]+k4[i])*dt;
       }
-      t = dt;
+      t = t+dt;
     }
     rk4.close();
   }
