@@ -1,15 +1,17 @@
 CC = g++
 
+EXE = main.exe
+
 SRC = $(wildcard *.cc)
 
 OBJ = $(patsubst %.cc,%.o,$(SRC))
 
-FLG = -Wall -g -O2 
+FLG = -Wall -g #-O2 
 
-
-
-$(SRC):
+$(EXE):$(OBJ)
+	clear
 	$(CC) -o $@ $^ $(FLG)
+	
 
 $(OBJ):%.o:%.cc
 	$(CC) -o $@ -c $< $(FLG)
@@ -20,3 +22,5 @@ clean:
 run:
 	@./$(EXE)
 
+plot:
+	gnuplot grafico.gp
