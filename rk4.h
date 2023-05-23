@@ -65,9 +65,9 @@ class RK4{
       por ello tiene tamaño n_var+1*/
 
     vector<T> posicion_k1(n_var+1);
-    vector<T> posicion_k1(n_var+1);
-    vector<T> posicion_k1(n_var+1);
-    vector<T> posicion_k1(n_var+1);
+    vector<T> posicion_k2(n_var+1);
+    vector<T> posicion_k3(n_var+1);
+    vector<T> posicion_k4(n_var+1);
 
     //comienza a calcular la solucion de edo hasta t_f
     while(t<t_f){
