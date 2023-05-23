@@ -26,13 +26,13 @@ vector<double> derivada(vector<double> variables){ // t, x, y, z
 
 int main() {
   //aquí puede ser cualquier valor inicial en teoría
-  vector<double> posicion = vector{0., 0., 0.};
+  vector<double> posicion = vector<double>{0., 0., 0.};
 
   //inicializo un objeto de la clase con la edo a resolver
   RK4<double> mi_edo(derivada, posicion, 0., 10., 0.5);
 
   //guardo los puntos obtenidos en rk4.dat
   mi_edo.rk4("rk4.dat");
-  return = 0;
+  return 0;
 
 }
