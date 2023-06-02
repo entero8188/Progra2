@@ -2,7 +2,10 @@
 #define ENL_H
 
 #include <cmath>
+#include <vector>
+#include <iostream>
 
+using namespace std;
 // CLASE PARA UNA SOLA DIMENSION
 class Enl{
   private:
