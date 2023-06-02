@@ -1,6 +1,10 @@
 #ifndef CUADRATURAS_H
 #define CUADRATURAS_H
 #include <cmath>
+#include <iostream>
+#include <vector>
+
+using namespace std;
 
 class Cuadratura{
   private:
