@@ -87,9 +87,9 @@ class Cuadratura{
       vector<vector<double>> M_R(N,vector<double>(N));
       double I_n = (1./2.)*(f(a)+f(b));
       for (int i=2; i<N; i++){
-        double fx;
-        for (int s=1; s<pow(2,i-2); s++){
-          fx = f(a + h[i]*(2*s-1));
+        double fx=0;
+        for (int s=1; s<=pow(2,i-2); s++){
+          fx += f(a + h[i]*(2*s-1));
         }
         M_R[0][i] = I_n;
         I_n = (1./2.)*I_n + h[i]*fx;
