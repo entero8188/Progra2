@@ -5,9 +5,10 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <cmath>
 
 using namespace std;
-// Regresion lineal simple (Rls) (no usando matrices), para una expresion Y = a_1 + a_2*X
+// Regresion lineal simple (Rls) (no usando matrices), para una expresion Y = a_1 + a_2(X)
 
 class Rls{
 	private:
@@ -15,6 +16,15 @@ class Rls{
 		vector<double> x; 
 		vector<double> y;
 		vector<double> sigma; // los errores
+
+		// estos son los elementos que se operan posteriormente en los calculos.
+		vector<double> xx;
+		vector<double> xy;
+		vector<double> X;
+		vector<double> Y;
+		vector<double> s;
+		double S;
+		
 	public:
 		Rls(){};
 		~Rls(){};
@@ -44,6 +54,26 @@ class Rls{
   			}
 			}
 
+
+  		for(int i=0; i<x.size();i++){
+				this-> xx.push_back((x[i]*x[i])/(sigma[i]*sigma[i]));
+  		}
+
+  		for(int i=0; i<y.size();i++){
+				this-> xy.push_back((x[i]*y[i])/(sigma[i]*sigma[i]));
+  		}
+
+  		for(int i=0; i<x.size();i++){
+				this-> X.push_back((x[i])/(sigma[i]*sigma[i]));
+  		}
+
+  		for(int i=0; i<y.size();i++){
+				this-> Y.push_back((y[i])/(sigma[i]*sigma[i]));
+  		}
+
+  		for(int i=0; i<sigma.size();i++){
+				this-> s.push_back(1/(sigma[i]*sigma[i]));
+  		}
 		};
 
 
@@ -102,31 +132,6 @@ class Rls{
 		// calcula y retorna a_1 o a_2 (nom significa n(intercepto) o m(pendiente))
 		double a(int nom){
 
-			vector<double> xx;
-  		for(int i=0; i<x.size();i++){
-				xx.push_back((x[i]*x[i])/(sigma[i]*sigma[i]));
-  		}
-
-			vector<double> xy;
-  		for(int i=0; i<y.size();i++){
-				xy.push_back((x[i]*y[i])/(sigma[i]*sigma[i]));
-  		}
-
-			vector<double> X;
-  		for(int i=0; i<x.size();i++){
-				X.push_back((x[i])/(sigma[i]*sigma[i]));
-  		}
-
-			vector<double> Y;
-  		for(int i=0; i<y.size();i++){
-				Y.push_back((y[i])/(sigma[i]*sigma[i]));
-  		}
-
-			vector<double> s;
-  		for(int i=0; i<sigma.size();i++){
-				s.push_back(1/(sigma[i]*sigma[i]));
-  		}
-
 			double S = Suma(s);
 
 			// el intercepto.
@@ -135,7 +140,19 @@ class Rls{
 			// la pendiente.
 			double a_2 = ((S*Suma(xy))-Suma(X)*Suma(Y))/((S*Suma(xx))-(Suma(X)*Suma(X)));
 
+
 			return ((nom == 1) ? a_1 : a_2);
+
+		}
+
+		double error(int nom){
+			double S = Suma(s);
+			// error de a_1 (intercepto)
+			double sigma_a1 = sqrt(Suma(xx)/((S*Suma(xx))-(Suma(X)*Suma(X))));
+			// error de a_2 (pendiente)
+			double sigma_a2 = sqrt(S/((S*Suma(xx))-(Suma(X)*Suma(X))));
+
+			return ((nom == 1) ? sigma_a1 : sigma_a2);
 
 		}
 
